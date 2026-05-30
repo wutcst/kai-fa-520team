@@ -4,6 +4,7 @@ import cn.edu.whut.sept.zuul.Command.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -58,7 +59,6 @@ public class Game {
         theater.getItems().add(new Item("pen", "一支钢笔", 0.05));
 
         pub.getItems().add(new Item("beer", "一杯啤酒", 0.5));
-        pub.getItems().add(new Item("cookie", "魔法饼干（增加负重能力）", 0.2));
         pub.getItems().add(new Item("coin", "一枚金币", 0.1));
 
         lab.getItems().add(new Item("book", "计算机科学教材", 1.5));
@@ -66,6 +66,12 @@ public class Game {
 
         office.getItems().add(new Item("coffee", "一杯咖啡", 0.3));
         office.getItems().add(new Item("paper", "一份重要文件", 0.2));
+
+        // 随机将魔法饼干放入某个房间
+        Room[] rooms = {outside, theater, pub, lab, office};
+        Random random = new Random();
+        int randomIndex = random.nextInt(rooms.length);
+        rooms[randomIndex].getItems().add(new Item("cookie", "魔法饼干（增加负重能力）", 0.2));
 
         // 初始化房间出口
         outside.setExit("east", theater);

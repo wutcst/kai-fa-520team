@@ -30,22 +30,11 @@ public class DropCommand implements CommandHandler {
         }
 
         // 丢弃物品
-        if (player.dropItem(itemName)) {
+        Item droppedItem = player.dropItem(itemName);
+        if (droppedItem != null) {
             // 将物品放回房间
-            Item droppedItem = null;
-            for (Item item : player.getInventory()) {
-                if (item.getName().equalsIgnoreCase(itemName)) {
-                    // 实际上应该在dropItem方法中返回被丢弃的物品
-                    // 这里简化处理，重新创建一个物品
-                    droppedItem = new Item(itemName, "被丢弃的" + itemName, 0.5);
-                    break;
-                }
-            }
-
-            if (droppedItem != null) {
-                game.getCurrentRoom().addItem(droppedItem);
-                System.out.println(itemName + " 已放回房间");
-            }
+            game.getCurrentRoom().addItem(droppedItem);
+            System.out.println(itemName + " 已放回房间");
         }
 
         return false;
