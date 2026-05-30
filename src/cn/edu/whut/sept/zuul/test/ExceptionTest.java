@@ -79,7 +79,7 @@ public class ExceptionTest {
         Player player = new Player("测试玩家", new Room("测试房间"));
 
         // dropItem应该能处理null物品名
-        assertFalse(player.dropItem(null), "null物品名应该返回false");
+        assertNull(player.dropItem(null), "null物品名应该返回null");
     }
 
     @Test
@@ -87,7 +87,7 @@ public class ExceptionTest {
         Player player = new Player("测试玩家", new Room("测试房间"));
 
         // dropItem应该能处理空字符串物品名
-        assertFalse(player.dropItem(""), "空字符串物品名应该返回false");
+        assertNull(player.dropItem(""), "空字符串物品名应该返回null");
     }
 
     @Test

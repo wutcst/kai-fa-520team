@@ -2,6 +2,7 @@ package cn.edu.whut.sept.zuul;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Player {
     private String name;
@@ -44,7 +45,7 @@ public class Player {
         return true;
     }
 
-    public boolean dropItem(String itemName) {
+    public Item dropItem(String itemName) {
         for (int i = 0; i < inventory.size(); i++) {
             Item item = inventory.get(i);
             if (item.getName().equalsIgnoreCase(itemName)) {
@@ -53,11 +54,11 @@ public class Player {
                 System.out.println("丢弃了：" + item.getName());
                 System.out.println("当前负重：" + String.format("%.1f", currentWeight) +
                         "/" + String.format("%.1f", maxWeight));
-                return true;
+                return item;
             }
         }
         System.out.println("你没有这个物品：" + itemName);
-        return false;
+        return null;
     }
 
     public void showInventory() {
@@ -114,7 +115,7 @@ public class Player {
         // 移除饼干并增加负重
         inventory.remove(cookieToRemove);
         currentWeight -= cookieToRemove.getWeight();
-        maxWeight += 5.0; // 增加5kg负重
+        maxWeight += 5.0; // 固定增加5kg负重
         System.out.println("吃掉了魔法饼干！");
         System.out.println("你的负重能力增加了5kg，现在最大负重：" +
                 String.format("%.1f", maxWeight) + "kg");

@@ -63,14 +63,16 @@ public class PlayerTest {
     @Test
     public void testDropItem() {
         player.takeItem(lightItem);
-        assertTrue(player.dropItem("羽毛"), "丢弃存在的物品应该成功");
+        Item droppedItem = player.dropItem("羽毛");
+        assertNotNull(droppedItem, "丢弃存在的物品应该返回物品对象");
+        assertEquals(lightItem, droppedItem, "返回的应该是被丢弃的物品");
         assertEquals(0, player.getInventory().size(), "背包应该为空");
         assertEquals(0.0, player.getCurrentWeight(), 0.001, "当前负重应该为0");
     }
 
     @Test
     public void testDropNonExistentItem() {
-        assertFalse(player.dropItem("不存在的物品"), "丢弃不存在的物品应该失败");
+        assertNull(player.dropItem("不存在的物品"), "丢弃不存在的物品应该返回null");
     }
 
     @Test
