@@ -10,9 +10,14 @@ public class QuitCommand implements CommandHandler {
     @Override
     public boolean execute(Game game, Command command) {
         if (command.hasSecondWord()) {
-            System.out.println("Quit what?");
+            System.out.println("退出命令不需要参数。");
             System.out.println("请输入 'quit' 退出游戏");
             return false;
+        }
+
+        if (game.isGuiMode()) {
+            System.out.println("感谢游玩祖尔世界！");
+            return true;
         }
 
         System.out.println("确定要退出游戏吗？(yes/no)");

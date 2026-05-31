@@ -12,7 +12,7 @@ public class DropCommand implements CommandHandler {
     @Override
     public boolean execute(Game game, Command command) {
         if (!command.hasSecondWord()) {
-            System.out.println("Drop what?");
+            System.out.println("要丢弃什么？");
             System.out.println("请指定要丢弃的物品，如: drop key");
             System.out.println("你的物品:");
             game.getPlayer().showInventory();
@@ -24,7 +24,7 @@ public class DropCommand implements CommandHandler {
 
         // 检查玩家是否有该物品
         if (!player.hasItem(itemName)) {
-            System.out.println("你没有 '" + itemName + "' 这个物品！");
+            System.out.println("你没有这个物品！");
             player.showInventory();
             return false;
         }
@@ -34,7 +34,7 @@ public class DropCommand implements CommandHandler {
         if (droppedItem != null) {
             // 将物品放回房间
             game.getCurrentRoom().addItem(droppedItem);
-            System.out.println(itemName + " 已放回房间");
+            System.out.println("物品已放回房间");
         }
 
         return false;
