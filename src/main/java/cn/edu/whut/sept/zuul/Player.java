@@ -83,6 +83,9 @@ public class Player {
     public List<Item> getInventory() { return inventory; }
     public void setMaxWeight(double maxWeight) { this.maxWeight = maxWeight; }
 
+    // 新增：设置当前负重，用于载入存档后重建状态
+    public void setCurrentWeight(double currentWeight) { this.currentWeight = currentWeight; }
+
     // 添加 hasItem 方法，供其他命令使用
     public boolean hasItem(String itemName) {
         for (Item item : inventory) {

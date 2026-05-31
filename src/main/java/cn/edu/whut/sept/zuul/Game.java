@@ -19,6 +19,7 @@ public class Game {
     private Stack<Room> roomHistory;
     private Map<String, CommandHandler> commandHandlers;
     private Player player;
+    private Map<String, Room> roomsMap; // 房间描述 -> 房间对象 的映射，便于存档/载入
 
     public Game() {
         createRooms();
@@ -39,6 +40,10 @@ public class Game {
         commandHandlers.put("drop", new DropCommand());
         commandHandlers.put("items", new ItemsCommand());
         commandHandlers.put("eat", new EatCommand());
+        commandHandlers.put("save", new SaveCommand());
+        commandHandlers.put("load", new LoadCommand());
+        commandHandlers.put("saves", new ListSavesCommand());
+        commandHandlers.put("delete", new DeleteSaveCommand());
     }
 
     private void createRooms() {
@@ -72,6 +77,12 @@ public class Game {
         Random random = new Random();
         int randomIndex = random.nextInt(rooms.length);
         rooms[randomIndex].getItems().add(new Item("cookie", "魔法饼干（增加负重能力）", 0.2));
+
+        // 建立房间描述到房间对象的映射，便于存档/载入时查找
+        roomsMap = new HashMap<>();
+        for (Room r : rooms) {
+            roomsMap.put(r.getShortDescription(), r);
+        }
 
         // 初始化房间出口
         outside.setExit("east", theater);
@@ -149,6 +160,21 @@ public class Game {
      */
     public Room getCurrentRoom() {
         return currentRoom;
+    }
+
+    /**
+     * 根据房间描述查找已创建的房间对象（用于载入存档时恢复位置）
+     */
+    public Room findRoomByDescription(String desc) {
+        if (roomsMap == null) return null;
+        return roomsMap.get(desc);
+    }
+
+    /**
+     * 获取房间映射（描述->房间），用于存档/载入
+     */
+    public Map<String, Room> getRoomsMap() {
+        return roomsMap;
     }
 
     /**
