@@ -51,14 +51,13 @@ public class Room {
      * @return 包含房间描述和出口信息的字符串
      */
     public String getLongDescription() {
-        String longDesc = "You are " + description + ".\n" + getExitString();
+        String longDesc = "你在" + description + "。\n" + getExitString();
 
         // 添加物品信息
         if (!items.isEmpty()) {
             longDesc += "\n你可以看到:";
             for (Item item : items) {
-                longDesc += "\n  - " + item.getName() + " (" + item.getDescription() +
-                        "，重量：" + String.format("%.1f", item.getWeight()) + ")";
+                longDesc += "\n  - " + item.getDescription() + "（重量：" + String.format("%.1f", item.getWeight()) + "kg）";
             }
         }
 
@@ -70,11 +69,21 @@ public class Room {
      * @return 包含所有出口方向的字符串
      */
     private String getExitString() {
-        String returnString = "Exits:";
+        String returnString = "出口:";
         Set<String> keys = exits.keySet();
 
         for(String exit : keys) {
-            returnString += " " + exit;
+            String dirChinese;
+            switch (exit) {
+                case "north": dirChinese = "北"; break;
+                case "south": dirChinese = "南"; break;
+                case "east": dirChinese = "东"; break;
+                case "west": dirChinese = "西"; break;
+                case "up": dirChinese = "上"; break;
+                case "down": dirChinese = "下"; break;
+                default: dirChinese = exit; break;
+            }
+            returnString += " " + dirChinese;
         }
         return returnString;
     }

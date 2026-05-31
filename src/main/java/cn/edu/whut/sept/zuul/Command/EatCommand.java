@@ -11,7 +11,7 @@ public class EatCommand implements CommandHandler {
     @Override
     public boolean execute(Game game, Command command) {
         if (!command.hasSecondWord()) {
-            System.out.println("Eat what?");
+            System.out.println("要吃什么？");
             System.out.println("请指定要吃的物品，如: eat cookie");
             return false;
         }

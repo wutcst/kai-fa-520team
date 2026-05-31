@@ -39,6 +39,8 @@ public class LoadCommand implements CommandHandler {
             Room room = game.findRoomByDescription(roomDesc);
             if (room != null) {
                 game.setCurrentRoom(room);
+                // 载入存档后清空旧会话历史，避免 back 命令回退到旧游戏路径
+                game.clearRoomHistory();
             } else {
                 System.out.println("无法找到原先的房间，保留当前房间。");
             }

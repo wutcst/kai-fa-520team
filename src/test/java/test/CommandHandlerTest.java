@@ -5,7 +5,6 @@ import cn.edu.whut.sept.zuul.Command.*;
 import cn.edu.whut.sept.zuul.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Stack;
 
 /**
  * 命令处理器的单元测试
@@ -86,6 +85,31 @@ public class CommandHandlerTest {
 
         assertFalse(backCommand.execute(game, command), "返回时不应该结束游戏");
         assertEquals(initialRoom, game.getCurrentRoom(), "执行back后应该返回到初始房间");
+    }
+
+    @Test
+    public void testBackCommandMultipleSteps() {
+        BackCommand backCommand = new BackCommand();
+        Game game = new Game();
+        Command command = new Command("back", null);
+
+        Room room1 = game.getCurrentRoom();
+        Room room2 = new Room("房间二");
+        Room room3 = new Room("房间三");
+
+        game.setCurrentRoom(room2);
+        game.setCurrentRoom(room3);
+
+        assertEquals(room3, game.getCurrentRoom(), "前置条件：当前应在第三个房间");
+
+        assertFalse(backCommand.execute(game, command), "第一次返回不应结束游戏");
+        assertEquals(room2, game.getCurrentRoom(), "第一次back后应回到第二个房间");
+
+        assertFalse(backCommand.execute(game, command), "第二次返回不应结束游戏");
+        assertEquals(room1, game.getCurrentRoom(), "第二次back后应回到第一个房间");
+
+        assertFalse(backCommand.execute(game, command), "历史为空时返回也不应结束游戏");
+        assertEquals(room1, game.getCurrentRoom(), "历史为空后再次back不应改变当前房间");
     }
 
     @Test
