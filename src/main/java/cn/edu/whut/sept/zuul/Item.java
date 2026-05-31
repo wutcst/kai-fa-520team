@@ -51,6 +51,6 @@ public class Item {
      */
     @Override
     public String toString() {
-        return name + " (" + description + "，重量：" + String.format("%.1f", weight) + ")";
+        return description + "（重量：" + String.format("%.1f", weight) + "kg）";
     }
 }

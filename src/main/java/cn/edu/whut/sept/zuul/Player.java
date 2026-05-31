@@ -78,6 +78,8 @@ public class Player {
 
     // Getter和Setter
     public String getName() { return name; }
+    // 新增：允许在运行时修改玩家名称（用于 GUI 取名功能）
+    public void setName(String name) { this.name = name; }
     public Room getCurrentRoom() { return currentRoom; }
     public void setCurrentRoom(Room room) { this.currentRoom = room; }
     public List<Item> getInventory() { return inventory; }

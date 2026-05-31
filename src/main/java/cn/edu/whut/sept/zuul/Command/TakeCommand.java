@@ -13,7 +13,7 @@ public class TakeCommand implements CommandHandler {
     @Override
     public boolean execute(Game game, Command command) {
         if (!command.hasSecondWord()) {
-            System.out.println("Take what?");
+            System.out.println("要拾取什么？");
             System.out.println("请指定要拾取的物品，如: take key");
             return false;
         }
@@ -32,13 +32,13 @@ public class TakeCommand implements CommandHandler {
         }
 
         if (itemToTake == null) {
-            System.out.println("这里没有 '" + itemName + "' 这个物品！");
-            System.out.println("房间内的物品:");
+            System.out.println("这里没有这个物品！");
+            System.out.println("房间内的物品：");
             if (currentRoom.getItems().isEmpty()) {
                 System.out.println("  没有物品");
             } else {
                 for (Item item : currentRoom.getItems()) {
-                    System.out.println("  - " + item.getName());
+                    System.out.println("  - " + item);
                 }
             }
             return false;

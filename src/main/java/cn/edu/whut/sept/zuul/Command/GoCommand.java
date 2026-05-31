@@ -11,7 +11,7 @@ public class GoCommand implements CommandHandler {
     @Override
     public boolean execute(Game game, Command command) {
         if (!command.hasSecondWord()) {
-            System.out.println("Go where?");
+            System.out.println("要去哪里？");
             System.out.println("请指定方向，如: go east, go west, go north, go south");
             return false;
         }
@@ -41,7 +41,15 @@ public class GoCommand implements CommandHandler {
         for (String dir : directions) {
             if (game.getCurrentRoom().getExit(dir) != null) {
                 if (exits.length() > 0) exits.append(", ");
-                exits.append(dir);
+                switch (dir) {
+                    case "north": exits.append("北"); break;
+                    case "south": exits.append("南"); break;
+                    case "east": exits.append("东"); break;
+                    case "west": exits.append("西"); break;
+                    case "up": exits.append("上"); break;
+                    case "down": exits.append("下"); break;
+                    default: exits.append(dir); break;
+                }
             }
         }
 
