@@ -1,13 +1,15 @@
-🔴 严重问题
-     
-  1. System.setIn() 未恢复，污染测试环境
-     
-  ParserTest 中几乎每个测试都调用了 System.setIn(in) 重定向标准输入，但从未恢复原始的 System.in。BoundaryTest.testCommandWithLongInput() 也有同样问题。
+# 单元测试问题汇总
 
-  // ParserTest.java — 每个方法都是这样
-  String input = "help\n";
-  InputStream in = new ByteArrayInputStream(input.getBytes());
-  System.setIn(in);  // ← 改了，但从不恢复！
+## 🔴 严重问题
+
+1. **System.setIn() 未恢复，污染测试环境**
+ParserTest 中几乎每个测试都调用了 `System.setIn(in)` 重定向标准输入，但从未恢复原始的 `System.in`。BoundaryTest.tes
+
+```java
+// ParserTest.java – 每个方法都是这样
+String input = "help\n";
+InputStream in = new ByteArrayInputStream(input.getBytes());
+System.setIn(in); // ← 改了，但从不恢复！
 
   后果：后续测试（测试执行顺序不确定）可能会读到已经被消费或已关闭的流，导致间歇性失败。正确做法是用 @BeforeEach / @AfterEach 保存并恢复原始流。
 

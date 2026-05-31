@@ -3,6 +3,8 @@ package test;
 import cn.edu.whut.sept.zuul.Command.*;
 import cn.edu.whut.sept.zuul.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.*;
 
@@ -10,6 +12,18 @@ import java.io.*;
  * 边界条件测试
  */
 public class BoundaryTest {
+
+    private InputStream originalIn;
+
+    @BeforeEach
+    public void saveSystemIn() {
+        originalIn = System.in;
+    }
+
+    @AfterEach
+    public void restoreSystemIn() {
+        System.setIn(originalIn);
+    }
 
     @Test
     public void testPlayerWeightPrecision() {

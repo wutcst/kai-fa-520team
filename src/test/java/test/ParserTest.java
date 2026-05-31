@@ -3,6 +3,8 @@ package test;
 import cn.edu.whut.sept.zuul.Command.*;
 import cn.edu.whut.sept.zuul.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -12,6 +14,18 @@ import java.io.InputStream;
  * 注意：需要模拟用户输入
  */
 public class ParserTest {
+
+    private InputStream originalIn;
+
+    @BeforeEach
+    public void saveSystemIn() {
+        originalIn = System.in;
+    }
+
+    @AfterEach
+    public void restoreSystemIn() {
+        System.setIn(originalIn);
+    }
 
     @Test
     public void testParserCreation() {
