@@ -22,6 +22,8 @@ public class HelpCommand implements CommandHandler {
         System.out.println("- 吃饼干：'吃 饼干' 或 'eat cookie'");
         System.out.println("- 存档/载入：'保存'/'载入' 或 'save'/'load'");
         System.out.println("- 退出游戏：'退出' 或 'quit'");
+        game.getParser().showCommands();
+        System.out.println("祝你游戏愉快！");
         return false;
     }
 }
