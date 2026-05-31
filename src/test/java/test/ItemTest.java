@@ -1,4 +1,4 @@
-package cn.edu.whut.sept.zuul.test;
+package test;
 
 import cn.edu.whut.sept.zuul.Item;
 import org.junit.jupiter.api.Test;
