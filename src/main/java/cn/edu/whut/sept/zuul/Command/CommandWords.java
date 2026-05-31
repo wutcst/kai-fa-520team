@@ -35,6 +35,11 @@ public class CommandWords {
         validCommands.add("drop");  // 丢弃物品
         validCommands.add("items"); // 查看背包
         validCommands.add("eat");   // 吃魔法饼干
+        // 存档/载入命令
+        validCommands.add("save");  // 保存游戏状态到数据库
+        validCommands.add("load");  // 载入最近一次存档（或 load <id>）
+        validCommands.add("saves"); // 列出所有存档
+        validCommands.add("delete"); // 删除指定 id 的存档
     }
 
     /**
