@@ -34,7 +34,12 @@ public class DropCommand implements CommandHandler {
         if (droppedItem != null) {
             // 将物品放回房间
             game.getCurrentRoom().addItem(droppedItem);
+            System.out.println("丢弃了：" + droppedItem.getName());
+            System.out.println("当前负重：" + String.format("%.1f", player.getCurrentWeight()) +
+                    "/" + String.format("%.1f", player.getMaxWeight()));
             System.out.println("物品已放回房间");
+        } else {
+            System.out.println("丢弃失败：" + itemName);
         }
 
         return false;

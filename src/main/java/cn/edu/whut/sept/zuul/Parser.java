@@ -210,4 +210,15 @@ public class Parser {
     public Scanner getReader() {
         return reader;
     }
+
+    /**
+     * 关闭解析器使用的Scanner（如果需要）。
+     * 注意：关闭Scanner会关闭System.in，只有在确定不再使用控制台输入时才调用。
+     */
+    public void close() {
+        if (reader != null) {
+            reader.close();
+            reader = null;
+        }
+    }
 }

@@ -29,38 +29,42 @@ public class Player {
         return currentWeight;
     }
 
+    /**
+     * 尝试拾取物品并更新负重。该方法不负责任何输出，调用者应负责提示信息的显示。
+     * @param item 要拾取的物品
+     * @return 如果拾取成功返回true（并更新inventory与currentWeight），否则返回false
+     */
     public boolean takeItem(Item item) {
         if (currentWeight + item.getWeight() > maxWeight) {
-            System.out.println("拿不动了！当前负重：" + String.format("%.1f", currentWeight) +
-                    "/" + String.format("%.1f", maxWeight) +
-                    "，物品重量：" + String.format("%.1f", item.getWeight()));
             return false;
         }
 
         inventory.add(item);
         currentWeight += item.getWeight();
-        System.out.println("拾取了：" + item.getName());
-        System.out.println("当前负重：" + String.format("%.1f", currentWeight) +
-                "/" + String.format("%.1f", maxWeight));
         return true;
     }
 
+    /**
+     * 从背包中丢弃指定名称的物品。
+     * 该方法只修改玩家状态并返回被丢弃的物品对象，调用者负责输出提示信息。
+     * @param itemName 要丢弃的物品名称
+     * @return 被丢弃的物品对象；如果没有该物品则返回null
+     */
     public Item dropItem(String itemName) {
         for (int i = 0; i < inventory.size(); i++) {
             Item item = inventory.get(i);
             if (item.getName().equalsIgnoreCase(itemName)) {
                 inventory.remove(i);
                 currentWeight -= item.getWeight();
-                System.out.println("丢弃了：" + item.getName());
-                System.out.println("当前负重：" + String.format("%.1f", currentWeight) +
-                        "/" + String.format("%.1f", maxWeight));
                 return item;
             }
         }
-        System.out.println("你没有这个物品：" + itemName);
         return null;
     }
 
+    /**
+     * 输出背包信息到标准输出（展示性方法）。保留此方法以兼容现有命令逻辑。
+     */
     public void showInventory() {
         System.out.println("=== " + name + "的背包 ===");
         System.out.println("负重：" + String.format("%.1f", currentWeight) +
@@ -98,31 +102,26 @@ public class Player {
         return false;
     }
 
-    // 添加 eatCookie 方法
-    public void eatCookie() {
+    // 添加 eatCookie 方法（不输出，返回是否成功）
+    public boolean eatCookie() {
         // 查找魔法饼干
-        boolean hasCookie = false;
         Item cookieToRemove = null;
 
         for (Item item : inventory) {
             if (item.getName().equalsIgnoreCase("cookie")) {
-                hasCookie = true;
                 cookieToRemove = item;
                 break;
             }
         }
 
-        if (!hasCookie) {
-            System.out.println("你没有魔法饼干！");
-            return;
+        if (cookieToRemove == null) {
+            return false;
         }
 
         // 移除饼干并增加负重
         inventory.remove(cookieToRemove);
         currentWeight -= cookieToRemove.getWeight();
         maxWeight += 5.0; // 固定增加5kg负重
-        System.out.println("吃掉了魔法饼干！");
-        System.out.println("你的负重能力增加了5kg，现在最大负重：" +
-                String.format("%.1f", maxWeight) + "kg");
+        return true;
     }
 }

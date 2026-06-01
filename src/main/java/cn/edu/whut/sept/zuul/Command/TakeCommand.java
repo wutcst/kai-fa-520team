@@ -44,12 +44,21 @@ public class TakeCommand implements CommandHandler {
             return false;
         }
 
-        // 尝试拾取物品
-        if (player.takeItem(itemToTake)) {
-            // 如果拾取成功，从房间移除物品
-            currentRoom.getItems().remove(itemToTake);
+        // 尝试拾取物品：先判断是否超重，再调用模型方法更新状态
+        if (player.getCurrentWeight() + itemToTake.getWeight() > player.getMaxWeight()) {
+            System.out.println("拿不动了！当前负重：" + String.format("%.1f", player.getCurrentWeight()) +
+                    "/" + String.format("%.1f", player.getMaxWeight()) +
+                    "，物品重量：" + String.format("%.1f", itemToTake.getWeight()));
+        } else {
+            if (player.takeItem(itemToTake)) {
+                currentRoom.getItems().remove(itemToTake);
+                System.out.println("拾取了：" + itemToTake.getName());
+                System.out.println("当前负重：" + String.format("%.1f", player.getCurrentWeight()) +
+                        "/" + String.format("%.1f", player.getMaxWeight()));
+            } else {
+                System.out.println("无法拾取物品：" + itemToTake.getName());
+            }
         }
-        // 如果拾取失败（比如超重），takeItem方法中已经给出提示，物品还在房间
 
         return false;
     }

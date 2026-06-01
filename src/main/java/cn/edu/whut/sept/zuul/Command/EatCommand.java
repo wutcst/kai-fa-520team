@@ -33,7 +33,12 @@ public class EatCommand implements CommandHandler {
             return false;
         }
 
-        player.eatCookie();
+        if (player.eatCookie()) {
+            System.out.println("吃掉了魔法饼干！");
+            System.out.println("你的负重能力增加了5kg，现在最大负重：" + String.format("%.1f", player.getMaxWeight()) + "kg");
+        } else {
+            System.out.println("吃魔法饼干失败。");
+        }
         return false;
     }
 }
