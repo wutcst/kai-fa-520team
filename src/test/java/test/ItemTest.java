@@ -39,7 +39,7 @@ public class ItemTest {
 
     @Test
     public void testToString() {
-        String expected = "测试物品 (这是一个测试物品，重量：1.5)";
+        String expected = "这是一个测试物品（重量：1.5kg）";
         assertEquals(expected, item.toString(), "toString方法应该返回正确的格式");
     }
 

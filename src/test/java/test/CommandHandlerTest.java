@@ -5,6 +5,7 @@ import cn.edu.whut.sept.zuul.Command.*;
 import cn.edu.whut.sept.zuul.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.io.ByteArrayInputStream;
 
 /**
  * 命令处理器的单元测试
@@ -46,18 +47,18 @@ public class CommandHandlerTest {
     @Test
     public void testQuitCommand() {
         QuitCommand quitCommand = new QuitCommand();
-        Game game = new Game();
 
         // 测试有第二参数的情况
+        Game game1 = new Game();
         Command commandWithSecondWord = new Command("quit", "now");
-        assertFalse(quitCommand.execute(game, commandWithSecondWord), "有第二参数时不应该退出");
+        assertFalse(quitCommand.execute(game1, commandWithSecondWord), "有第二参数时不应该退出");
 
         // 测试没有第二参数的情况
-        // 注意：实际的quit命令会询问确认，这里我们只是测试命令处理器本身
+        // 模拟用户输入"no"来取消退出确认
+        System.setIn(new ByteArrayInputStream("no\n".getBytes()));
+        Game game = new Game();
         Command commandWithoutSecondWord = new Command("quit", null);
-        // 由于需要用户输入确认，这里我们无法直接测试返回值
-        // 但可以测试它不抛出异常
-        assertDoesNotThrow(() -> quitCommand.execute(game, commandWithoutSecondWord));
+        assertFalse(quitCommand.execute(game, commandWithoutSecondWord), "用户选择no时不应该退出");
     }
 
     @Test
