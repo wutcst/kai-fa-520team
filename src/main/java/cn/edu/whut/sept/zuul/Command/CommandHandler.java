@@ -9,7 +9,8 @@ import cn.edu.whut.sept.zuul.Game;
 public interface CommandHandler {
     /**
      * 执行命令
-     * @param game 游戏实例
+     *
+     * @param game    游戏实例
      * @param command 命令对象
      * @return 是否需要结束游戏
      */

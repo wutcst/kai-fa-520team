@@ -7,23 +7,15 @@ import cn.edu.whut.sept.zuul.Room;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -360,13 +352,13 @@ public class GameFrame extends JFrame {
                 button.setFocusable(false);
                 button.setAlignmentX(Component.CENTER_ALIGNMENT);
                 button.addActionListener(e -> executeCommandLine("go " + direction));
-                    // 美化出口按钮：与底部命令按钮保持一致的蓝色主题
-                    button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
-                    button.setBackground(new Color(66, 133, 244));
-                    button.setForeground(Color.WHITE);
-                    button.setFocusPainted(false);
-                    button.setOpaque(true);
-                    button.setBorder(new EmptyBorder(6, 12, 6, 12));
+                // 美化出口按钮：与底部命令按钮保持一致的蓝色主题
+                button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
+                button.setBackground(new Color(66, 133, 244));
+                button.setForeground(Color.WHITE);
+                button.setFocusPainted(false);
+                button.setOpaque(true);
+                button.setBorder(new EmptyBorder(6, 12, 6, 12));
                 exitsPanel.add(button);
                 exitsPanel.add(Box.createVerticalStrut(6));
             }
@@ -515,33 +507,6 @@ public class GameFrame extends JFrame {
         return room.getShortDescription();
     }
 
-    /**
-     * 全窗口背景画布：将当前房间背景铺满整个界面。
-     */
-    private class BackgroundCanvasPanel extends JPanel {
-        BackgroundCanvasPanel() {
-            setOpaque(true);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Room room = game.getCurrentRoom();
-            if (room == null) {
-                return;
-            }
-            BufferedImage background = loadImage(roomBackgroundFile(room));
-            if (background != null) {
-                g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
-            } else {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setColor(new Color(35, 40, 55));
-                g2.fillRect(0, 0, getWidth(), getHeight());
-                g2.dispose();
-            }
-        }
-    }
-
     private JLabel createPanelTitle(String text) {
         JLabel label = new JLabel(text);
         // 更醒目的标题样式（黑色、稍大）
@@ -669,7 +634,8 @@ public class GameFrame extends JFrame {
 
     private String normalizeRoomKey(Room room) {
         String desc = room.getShortDescription().toLowerCase();
-        if (desc.contains("outside") || desc.contains("entrance") || desc.contains("主入口") || desc.contains("入口") || desc.contains("外")) return "outside";
+        if (desc.contains("outside") || desc.contains("entrance") || desc.contains("主入口") || desc.contains("入口") || desc.contains("外"))
+            return "outside";
         if (desc.contains("pub") || desc.contains("酒吧")) return "pub";
         if (desc.contains("lab") || desc.contains("实验")) return "lab";
         if (desc.contains("office") || desc.contains("教务") || desc.contains("办公室")) return "office";
@@ -743,19 +709,59 @@ public class GameFrame extends JFrame {
     private String itemDisplayName(Item item) {
         String key = item.getName() == null ? "" : item.getName().toLowerCase();
         switch (key) {
-            case "key": return "钥匙";
-            case "map": return "地图";
-            case "notebook": return "笔记本";
-            case "pen": return "钢笔";
-            case "beer": return "啤酒";
-            case "coin": return "金币";
-            case "book": return "书";
-            case "laptop": return "笔记本电脑";
-            case "labtop": return "笔记本电脑";
-            case "coffee": return "咖啡";
-            case "paper": return "文件";
-            case "cookie": return "魔法饼干";
-            default: return item.getDescription() != null ? item.getDescription() : item.getName();
+            case "key":
+                return "钥匙";
+            case "map":
+                return "地图";
+            case "notebook":
+                return "笔记本";
+            case "pen":
+                return "钢笔";
+            case "beer":
+                return "啤酒";
+            case "coin":
+                return "金币";
+            case "book":
+                return "书";
+            case "laptop":
+                return "笔记本电脑";
+            case "labtop":
+                return "笔记本电脑";
+            case "coffee":
+                return "咖啡";
+            case "paper":
+                return "文件";
+            case "cookie":
+                return "魔法饼干";
+            default:
+                return item.getDescription() != null ? item.getDescription() : item.getName();
+        }
+    }
+
+    /**
+     * 全窗口背景画布：将当前房间背景铺满整个界面。
+     */
+    private class BackgroundCanvasPanel extends JPanel {
+        BackgroundCanvasPanel() {
+            setOpaque(true);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Room room = game.getCurrentRoom();
+            if (room == null) {
+                return;
+            }
+            BufferedImage background = loadImage(roomBackgroundFile(room));
+            if (background != null) {
+                g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+            } else {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(new Color(35, 40, 55));
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.dispose();
+            }
         }
     }
 

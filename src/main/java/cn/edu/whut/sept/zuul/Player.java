@@ -2,7 +2,6 @@ package cn.edu.whut.sept.zuul;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Player {
     private String name;
@@ -24,9 +23,18 @@ public class Player {
         return maxWeight;
     }
 
+    public void setMaxWeight(double maxWeight) {
+        this.maxWeight = maxWeight;
+    }
+
     // 添加 getCurrentWeight() 方法，因为 LookCommand 也需要它
     public double getCurrentWeight() {
         return currentWeight;
+    }
+
+    // 新增：设置当前负重，用于载入存档后重建状态
+    public void setCurrentWeight(double currentWeight) {
+        this.currentWeight = currentWeight;
     }
 
     public boolean takeItem(Item item) {
@@ -77,16 +85,26 @@ public class Player {
     }
 
     // Getter和Setter
-    public String getName() { return name; }
-    // 新增：允许在运行时修改玩家名称（用于 GUI 取名功能）
-    public void setName(String name) { this.name = name; }
-    public Room getCurrentRoom() { return currentRoom; }
-    public void setCurrentRoom(Room room) { this.currentRoom = room; }
-    public List<Item> getInventory() { return inventory; }
-    public void setMaxWeight(double maxWeight) { this.maxWeight = maxWeight; }
+    public String getName() {
+        return name;
+    }
 
-    // 新增：设置当前负重，用于载入存档后重建状态
-    public void setCurrentWeight(double currentWeight) { this.currentWeight = currentWeight; }
+    // 新增：允许在运行时修改玩家名称（用于 GUI 取名功能）
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public void setCurrentRoom(Room room) {
+        this.currentRoom = room;
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
+    }
 
     // 添加 hasItem 方法，供其他命令使用
     public boolean hasItem(String itemName) {

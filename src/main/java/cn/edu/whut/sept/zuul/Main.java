@@ -2,7 +2,7 @@ package cn.edu.whut.sept.zuul;
 
 import cn.edu.whut.sept.zuul.gui.GameFrame;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 /**
  * "World-of-Zuul"应用程序的主类。

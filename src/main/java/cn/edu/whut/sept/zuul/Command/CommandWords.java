@@ -50,6 +50,7 @@ public class CommandWords {
 
     /**
      * 检查给定的字符串是否为有效命令。
+     *
      * @param aString 要检查的字符串
      * @return 如果字符串是有效命令则返回true，否则返回false
      */
@@ -59,6 +60,7 @@ public class CommandWords {
 
     /**
      * 获取所有有效命令。
+     *
      * @return 命令及其描述的映射
      */
     public Set<String> getCommands() {
@@ -67,6 +69,7 @@ public class CommandWords {
 
     /**
      * 获取命令的描述。
+     *
      * @param command 命令名称
      * @return 命令描述，如果命令不存在则返回null
      */
@@ -117,7 +120,8 @@ public class CommandWords {
 
     /**
      * 打印单个命令及其描述，格式化对齐。
-     * @param command 命令名称（可带参数）
+     *
+     * @param command     命令名称（可带参数）
      * @param description 命令描述
      */
     private void printCommand(String command, String description) {

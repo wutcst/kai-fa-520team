@@ -63,7 +63,7 @@ public class DBUtil {
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             if (rs.next()) {
-                Map<String,String> m = new HashMap<>();
+                Map<String, String> m = new HashMap<>();
                 m.put("id", String.valueOf(rs.getInt("id")));
                 m.put("name", rs.getString("name"));
                 m.put("current_room", rs.getString("current_room"));
@@ -86,7 +86,7 @@ public class DBUtil {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    Map<String,String> m = new HashMap<>();
+                    Map<String, String> m = new HashMap<>();
                     m.put("id", String.valueOf(rs.getInt("id")));
                     m.put("name", rs.getString("name"));
                     m.put("current_room", rs.getString("current_room"));
@@ -110,7 +110,7 @@ public class DBUtil {
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                java.util.Map<String,String> m = new java.util.HashMap<>();
+                java.util.Map<String, String> m = new java.util.HashMap<>();
                 m.put("id", String.valueOf(rs.getInt("id")));
                 m.put("name", rs.getString("name"));
                 m.put("saved_at", rs.getString("saved_at"));

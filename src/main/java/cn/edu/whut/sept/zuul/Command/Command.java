@@ -7,19 +7,17 @@ package cn.edu.whut.sept.zuul.Command;
  * @author Michael Kölling and David J. Barnes
  * @version 1.0
  */
-public class Command
-{
+public class Command {
     private String commandWord;  // 命令词，如"go"、"help"、"quit"
     private String secondWord;   // 命令参数，如方向、物品名称等
 
     /**
      * 创建命令对象。
      *
-     * @param firstWord 命令词，如果为null表示未知命令
+     * @param firstWord  命令词，如果为null表示未知命令
      * @param secondWord 命令参数，可能为null表示无参数
      */
-    public Command(String firstWord, String secondWord)
-    {
+    public Command(String firstWord, String secondWord) {
         commandWord = firstWord;
         this.secondWord = secondWord;
     }
@@ -29,8 +27,7 @@ public class Command
      *
      * @return 命令词，可能为null（表示未知命令）
      */
-    public String getCommandWord()
-    {
+    public String getCommandWord() {
         return commandWord;
     }
 
@@ -39,8 +36,7 @@ public class Command
      *
      * @return 命令参数，可能为null（表示无参数）
      */
-    public String getSecondWord()
-    {
+    public String getSecondWord() {
         return secondWord;
     }
 
@@ -50,8 +46,7 @@ public class Command
      *
      * @return 如果命令词为null则返回true，表示未知命令；否则返回false
      */
-    public boolean isUnknown()
-    {
+    public boolean isUnknown() {
         return (commandWord == null);
     }
 
@@ -61,8 +56,7 @@ public class Command
      *
      * @return 如果参数不为null则返回true，表示命令包含参数；否则返回false
      */
-    public boolean hasSecondWord()
-    {
+    public boolean hasSecondWord() {
         return (secondWord != null);
     }
 }

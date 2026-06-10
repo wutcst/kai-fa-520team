@@ -34,18 +34,18 @@ public class Game {
     }
 
     /**
+     * 判断当前是否运行在 GUI 模式。
+     */
+    public boolean isGuiMode() {
+        return guiMode;
+    }
+
+    /**
      * 设置是否运行在 GUI 模式。
      * GUI 模式下，某些命令（例如 quit）不会读取控制台输入。
      */
     public void setGuiMode(boolean guiMode) {
         this.guiMode = guiMode;
-    }
-
-    /**
-     * 判断当前是否运行在 GUI 模式。
-     */
-    public boolean isGuiMode() {
-        return guiMode;
     }
 
     private void initializeCommandHandlers() {
@@ -150,6 +150,7 @@ public class Game {
 
     /**
      * 执行用户输入的游戏指令。
+     *
      * @param command 待处理的游戏指令
      * @return 如果执行的是游戏结束指令，则返回true，否则返回false
      */
@@ -169,6 +170,146 @@ public class Game {
 
         System.out.println("命令未实现: " + commandWord);
         return false;
+    }
+
+    /**
+     * 执行一行命令文本，并捕获命令输出。
+     *
+     * @param inputLine 用户输入
+     * @return 命令执行结果
+     */
+    public ExecutionResult executeCommandLine(String inputLine) {
+        Command command = parser.parseCommandLine(inputLine);
+        return executeCommand(command);
+    }
+
+    /**
+     * 执行一个命令对象，并捕获输出。
+     *
+     * @param command 命令对象
+     * @return 命令执行结果
+     */
+    public ExecutionResult executeCommand(Command command) {
+        Room previousRoom = currentRoom;
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        PrintStream capture;
+        try {
+            capture = new PrintStream(buffer, true, "UTF-8");
+        } catch (java.io.UnsupportedEncodingException e) {
+            throw new IllegalStateException("UTF-8 is not supported", e);
+        }
+
+        boolean finished;
+        try {
+            System.setOut(capture);
+            finished = processCommand(command);
+        } finally {
+            capture.flush();
+            System.setOut(originalOut);
+        }
+
+        String output = new String(buffer.toByteArray(), StandardCharsets.UTF_8);
+        return new ExecutionResult(finished, output, previousRoom, currentRoom);
+    }
+
+    /**
+     * 获取当前房间。
+     *
+     * @return 当前房间对象
+     */
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    // ============ Getter 方法 ============
+
+    /**
+     * 设置当前房间。
+     *
+     * @param room 要设置的新房间
+     */
+    public void setCurrentRoom(Room room) {
+        setCurrentRoom(room, true);
+    }
+
+    /**
+     * 根据房间描述查找已创建的房间对象（用于载入存档时恢复位置）
+     */
+    public Room findRoomByDescription(String desc) {
+        if (roomsMap == null) return null;
+        return roomsMap.get(desc);
+    }
+
+    /**
+     * 获取房间映射（描述->房间），用于存档/载入
+     */
+    public Map<String, Room> getRoomsMap() {
+        return roomsMap;
+    }
+
+    /**
+     * 设置当前房间，可选择是否将当前房间记录到历史记录中。
+     * 当从历史返回时应传入 recordHistory=false，避免在历史中再次推入当前房间从而导致在两个房间间来回切换。
+     *
+     * @param room          要设置的新房间
+     * @param recordHistory 是否记录当前房间到历史
+     */
+    public void setCurrentRoom(Room room, boolean recordHistory) {
+        if (recordHistory && currentRoom != null && !room.equals(currentRoom)) {
+            roomHistory.push(currentRoom);
+        }
+        currentRoom = room;
+        player.setCurrentRoom(room);
+    }
+
+    /**
+     * 清空房间历史记录。
+     * 一般在载入存档后调用，避免旧会话的返回路径干扰当前会话。
+     */
+    public void clearRoomHistory() {
+        roomHistory.clear();
+    }
+
+    /**
+     * 返回到上一个房间，并保持历史栈按层逐步回退。
+     *
+     * @return 返回的房间；如果没有历史则返回 null
+     */
+    public Room goBack() {
+        if (roomHistory.isEmpty()) {
+            return null;
+        }
+        Room previousRoom = roomHistory.pop();
+        setCurrentRoom(previousRoom, false);
+        return previousRoom;
+    }
+
+    /**
+     * 获取解析器。
+     *
+     * @return 解析器对象
+     */
+    public Parser getParser() {
+        return parser;
+    }
+
+    /**
+     * 获取房间历史记录。
+     *
+     * @return 房间历史堆栈
+     */
+    public Stack<Room> getRoomHistory() {
+        return roomHistory;
+    }
+
+    /**
+     * 获取玩家对象。
+     *
+     * @return 玩家对象
+     */
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -206,136 +347,5 @@ public class Game {
         public boolean isRoomChanged() {
             return previousRoom != currentRoom;
         }
-    }
-
-    /**
-     * 执行一行命令文本，并捕获命令输出。
-     * @param inputLine 用户输入
-     * @return 命令执行结果
-     */
-    public ExecutionResult executeCommandLine(String inputLine) {
-        Command command = parser.parseCommandLine(inputLine);
-        return executeCommand(command);
-    }
-
-    /**
-     * 执行一个命令对象，并捕获输出。
-     * @param command 命令对象
-     * @return 命令执行结果
-     */
-    public ExecutionResult executeCommand(Command command) {
-        Room previousRoom = currentRoom;
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        PrintStream capture;
-        try {
-            capture = new PrintStream(buffer, true, "UTF-8");
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new IllegalStateException("UTF-8 is not supported", e);
-        }
-
-        boolean finished;
-        try {
-            System.setOut(capture);
-            finished = processCommand(command);
-        } finally {
-            capture.flush();
-            System.setOut(originalOut);
-        }
-
-        String output = new String(buffer.toByteArray(), StandardCharsets.UTF_8);
-        return new ExecutionResult(finished, output, previousRoom, currentRoom);
-    }
-
-    // ============ Getter 方法 ============
-
-    /**
-     * 获取当前房间。
-     * @return 当前房间对象
-     */
-    public Room getCurrentRoom() {
-        return currentRoom;
-    }
-
-    /**
-     * 根据房间描述查找已创建的房间对象（用于载入存档时恢复位置）
-     */
-    public Room findRoomByDescription(String desc) {
-        if (roomsMap == null) return null;
-        return roomsMap.get(desc);
-    }
-
-    /**
-     * 获取房间映射（描述->房间），用于存档/载入
-     */
-    public Map<String, Room> getRoomsMap() {
-        return roomsMap;
-    }
-
-    /**
-     * 设置当前房间。
-     * @param room 要设置的新房间
-     */
-    public void setCurrentRoom(Room room) {
-        setCurrentRoom(room, true);
-    }
-
-    /**
-     * 设置当前房间，可选择是否将当前房间记录到历史记录中。
-     * 当从历史返回时应传入 recordHistory=false，避免在历史中再次推入当前房间从而导致在两个房间间来回切换。
-     * @param room 要设置的新房间
-     * @param recordHistory 是否记录当前房间到历史
-     */
-    public void setCurrentRoom(Room room, boolean recordHistory) {
-        if (recordHistory && currentRoom != null && !room.equals(currentRoom)) {
-            roomHistory.push(currentRoom);
-        }
-        currentRoom = room;
-        player.setCurrentRoom(room);
-    }
-
-    /**
-     * 清空房间历史记录。
-     * 一般在载入存档后调用，避免旧会话的返回路径干扰当前会话。
-     */
-    public void clearRoomHistory() {
-        roomHistory.clear();
-    }
-
-    /**
-     * 返回到上一个房间，并保持历史栈按层逐步回退。
-     * @return 返回的房间；如果没有历史则返回 null
-     */
-    public Room goBack() {
-        if (roomHistory.isEmpty()) {
-            return null;
-        }
-        Room previousRoom = roomHistory.pop();
-        setCurrentRoom(previousRoom, false);
-        return previousRoom;
-    }
-
-    /**
-     * 获取解析器。
-     * @return 解析器对象
-     */
-    public Parser getParser() {
-        return parser;
-    }
-
-    /**
-     * 获取房间历史记录。
-     * @return 房间历史堆栈
-     */
-    public Stack<Room> getRoomHistory() {
-        return roomHistory;
-    }
-
-    /**
-     * 获取玩家对象。
-     * @return 玩家对象
-     */
-    public Player getPlayer() {
-        return player;
     }
 }
