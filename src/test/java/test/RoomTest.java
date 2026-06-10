@@ -47,15 +47,15 @@ public class RoomTest {
     @Test
     public void testGetLongDescriptionWithoutExits() {
         String longDesc = room.getLongDescription();
-        assertTrue(longDesc.contains("You are 测试房间"), "长描述应该包含房间描述");
-        assertTrue(longDesc.contains("Exits:"), "长描述应该包含Exits标签");
+        assertTrue(longDesc.contains("你在测试房间"), "长描述应该包含房间描述");
+        assertTrue(longDesc.contains("出口:"), "长描述应该包含出口标签");
     }
 
     @Test
     public void testGetLongDescriptionWithExits() {
         room.setExit("north", northRoom);
         String longDesc = room.getLongDescription();
-        assertTrue(longDesc.contains("Exits: north"), "长描述应该包含出口方向");
+        assertTrue(longDesc.contains("北"), "长描述应该包含出口方向");
     }
 
     @Test
@@ -103,7 +103,7 @@ public class RoomTest {
 
         // 注意：getExitString是私有方法，这里通过getLongDescription间接测试
         String longDesc = room.getLongDescription();
-        assertTrue(longDesc.contains("north"), "应该包含north方向");
-        assertTrue(longDesc.contains("south"), "应该包含south方向");
+        assertTrue(longDesc.contains("北"), "应该包含北方向");
+        assertTrue(longDesc.contains("南"), "应该包含南方向");
     }
 }
