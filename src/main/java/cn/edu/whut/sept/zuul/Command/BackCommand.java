@@ -3,8 +3,6 @@ package cn.edu.whut.sept.zuul.Command;
 import cn.edu.whut.sept.zuul.Game;
 import cn.edu.whut.sept.zuul.Room;
 
-import java.util.Stack;
-
 /**
  * 返回命令处理器。
  * 处理"back"命令，返回上一个房间。

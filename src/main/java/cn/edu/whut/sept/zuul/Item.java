@@ -11,9 +11,10 @@ public class Item {
 
     /**
      * 创建物品对象。
-     * @param name 物品名称
+     *
+     * @param name        物品名称
      * @param description 物品描述
-     * @param weight 物品重量
+     * @param weight      物品重量
      */
     public Item(String name, String description, double weight) {
         this.name = name;
@@ -23,6 +24,7 @@ public class Item {
 
     /**
      * 获取物品名称。
+     *
      * @return 物品名称
      */
     public String getName() {
@@ -31,6 +33,7 @@ public class Item {
 
     /**
      * 获取物品描述。
+     *
      * @return 物品描述
      */
     public String getDescription() {
@@ -39,6 +42,7 @@ public class Item {
 
     /**
      * 获取物品重量。
+     *
      * @return 物品重量
      */
     public double getWeight() {
@@ -47,6 +51,7 @@ public class Item {
 
     /**
      * 获取物品的字符串表示。
+     *
      * @return 物品的详细描述
      */
     @Override

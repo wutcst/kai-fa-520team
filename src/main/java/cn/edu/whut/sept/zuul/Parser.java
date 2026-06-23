@@ -129,6 +129,7 @@ public class Parser {
 
     /**
      * 获取用户输入的命令。
+     *
      * @return 解析后的Command对象
      */
     public Command getCommand() {
@@ -138,6 +139,7 @@ public class Parser {
 
     /**
      * 将一行文本解析为命令对象，供 GUI 或其他非控制台入口调用。
+     *
      * @param inputLine 用户输入文本
      * @return 解析后的Command对象
      */
@@ -205,6 +207,7 @@ public class Parser {
 
     /**
      * 获取输入读取器。
+     *
      * @return Scanner对象
      */
     public Scanner getReader() {

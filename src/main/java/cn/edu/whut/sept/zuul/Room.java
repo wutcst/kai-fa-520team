@@ -1,9 +1,9 @@
 package cn.edu.whut.sept.zuul;
 
-import java.util.HashMap;
-import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 该类表示游戏中的一个房间。
@@ -20,6 +20,7 @@ public class Room {
 
     /**
      * 创建房间对象。
+     *
      * @param description 房间的描述信息
      */
     public Room(String description) {
@@ -30,8 +31,9 @@ public class Room {
 
     /**
      * 设置房间的出口。
+     *
      * @param direction 出口方向
-     * @param neighbor 相邻的房间对象
+     * @param neighbor  相邻的房间对象
      */
     public void setExit(String direction, Room neighbor) {
         exits.put(direction, neighbor);
@@ -39,6 +41,7 @@ public class Room {
 
     /**
      * 获取房间的简短描述。
+     *
      * @return 房间的描述字符串
      */
     public String getShortDescription() {
@@ -48,6 +51,7 @@ public class Room {
     /**
      * 获取房间的完整描述。
      * 包括房间描述和所有可用的出口方向。
+     *
      * @return 包含房间描述和出口信息的字符串
      */
     public String getLongDescription() {
@@ -66,22 +70,37 @@ public class Room {
 
     /**
      * 获取房间的所有出口方向。
+     *
      * @return 包含所有出口方向的字符串
      */
     private String getExitString() {
         String returnString = "出口:";
         Set<String> keys = exits.keySet();
 
-        for(String exit : keys) {
+        for (String exit : keys) {
             String dirChinese;
             switch (exit) {
-                case "north": dirChinese = "北"; break;
-                case "south": dirChinese = "南"; break;
-                case "east": dirChinese = "东"; break;
-                case "west": dirChinese = "西"; break;
-                case "up": dirChinese = "上"; break;
-                case "down": dirChinese = "下"; break;
-                default: dirChinese = exit; break;
+                case "north":
+                    dirChinese = "北";
+                    break;
+                case "south":
+                    dirChinese = "南";
+                    break;
+                case "east":
+                    dirChinese = "东";
+                    break;
+                case "west":
+                    dirChinese = "西";
+                    break;
+                case "up":
+                    dirChinese = "上";
+                    break;
+                case "down":
+                    dirChinese = "下";
+                    break;
+                default:
+                    dirChinese = exit;
+                    break;
             }
             returnString += " " + dirChinese;
         }
@@ -90,6 +109,7 @@ public class Room {
 
     /**
      * 获取指定方向的出口房间。
+     *
      * @param direction 要查询的方向
      * @return 指定方向的相邻房间，如果该方向无出口则返回null
      */
@@ -99,6 +119,7 @@ public class Room {
 
     /**
      * 向房间添加物品。
+     *
      * @param item 要添加的物品
      */
     public void addItem(Item item) {
@@ -117,6 +138,7 @@ public class Room {
 
     /**
      * 获取房间内的所有物品。
+     *
      * @return 物品列表
      */
     public List<Item> getItems() {
@@ -125,6 +147,7 @@ public class Room {
 
     /**
      * 检查房间是否有特定物品。
+     *
      * @param itemName 物品名称
      * @return 如果有该物品则返回true，否则返回false
      */

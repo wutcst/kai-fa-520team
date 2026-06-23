@@ -1,8 +1,6 @@
 package cn.edu.whut.sept.zuul.Command;
 
 import cn.edu.whut.sept.zuul.DBUtil;
-import cn.edu.whut.sept.zuul.Command.CommandHandler;
-import cn.edu.whut.sept.zuul.Command.Command;
 
 public class DeleteSaveCommand implements CommandHandler {
     @Override

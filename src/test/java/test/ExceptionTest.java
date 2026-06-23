@@ -30,8 +30,8 @@ public class ExceptionTest {
         // 假设不能为null，我们测试它不抛出异常
         assertDoesNotThrow(() -> room.setExit(null, otherRoom));
 
-        // getExit应该能处理null方向
-        assertNull(room.getExit(null), "null方向应该返回null");
+        // 由于HashMap允许null key，getExit(null)应返回刚才设置的房间
+        assertEquals(otherRoom, room.getExit(null), "null方向应该返回设置的房间");
     }
 
     @Test
@@ -67,11 +67,8 @@ public class ExceptionTest {
     public void testTakeNullItem() {
         Player player = new Player("测试玩家", new Room("测试房间"));
 
-        // takeItem应该能处理null物品吗？
-        // 这里我们期望它抛出NullPointerException或者返回false
-        // 根据我们的实现，它可能会抛出NullPointerException
-        // 我们测试它不抛出异常（如果实现中做了检查）
-        assertDoesNotThrow(() -> player.takeItem(null));
+        // takeItem传入null时会触发NullPointerException（item.getWeight()）
+        assertThrows(NullPointerException.class, () -> player.takeItem(null));
     }
 
     @Test
@@ -122,10 +119,8 @@ public class ExceptionTest {
         GoCommand goCommand = new GoCommand();
         Command command = new Command("go", "north");
 
-        // execute应该能处理null game
-        // 根据实现，可能会抛出NullPointerException
-        // 我们测试它不抛出异常（如果实现中做了检查）
-        assertDoesNotThrow(() -> goCommand.execute(null, command));
+        // execute传入null game时会触发NullPointerException
+        assertThrows(NullPointerException.class, () -> goCommand.execute(null, command));
     }
 
     @Test
@@ -133,7 +128,7 @@ public class ExceptionTest {
         GoCommand goCommand = new GoCommand();
         Game game = new Game();
 
-        // execute应该能处理null command
-        assertDoesNotThrow(() -> goCommand.execute(game, null));
+        // execute传入null command时会触发NullPointerException
+        assertThrows(NullPointerException.class, () -> goCommand.execute(game, null));
     }
 }

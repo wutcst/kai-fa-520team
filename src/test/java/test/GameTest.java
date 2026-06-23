@@ -35,8 +35,8 @@ public class GameTest {
 
         // 验证初始房间的描述
         String description = initialRoom.getShortDescription();
-        assertTrue(description.contains("outside") || description.contains("entrance"),
-                "初始房间应该是outside或entrance");
+        assertTrue(description.contains("入口") || description.contains("大学"),
+                "初始房间应该是大学主入口外");
 
         // 验证房间之间的连接
         Room eastRoom = initialRoom.getExit("east");
@@ -208,9 +208,9 @@ public class GameTest {
         game.setCurrentRoom(room2);
         assertEquals(2, history.size(), "再次移动后历史记录应该有两个房间");
 
-        // 返回到上一个房间
+        // 返回到上一个房间（手动管理历史栈，使用false避免重复压栈）
         Room previousRoom = history.pop();
-        game.setCurrentRoom(previousRoom);
+        game.setCurrentRoom(previousRoom, false);
         assertEquals(1, history.size(), "返回后历史记录应该减少");
     }
 

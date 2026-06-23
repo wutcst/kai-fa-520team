@@ -31,6 +31,7 @@ public class GoCommand implements CommandHandler {
 
     /**
      * 获取当前房间的可用出口。
+     *
      * @param game 游戏实例
      * @return 可用出口字符串
      */
@@ -42,13 +43,27 @@ public class GoCommand implements CommandHandler {
             if (game.getCurrentRoom().getExit(dir) != null) {
                 if (exits.length() > 0) exits.append(", ");
                 switch (dir) {
-                    case "north": exits.append("北"); break;
-                    case "south": exits.append("南"); break;
-                    case "east": exits.append("东"); break;
-                    case "west": exits.append("西"); break;
-                    case "up": exits.append("上"); break;
-                    case "down": exits.append("下"); break;
-                    default: exits.append(dir); break;
+                    case "north":
+                        exits.append("北");
+                        break;
+                    case "south":
+                        exits.append("南");
+                        break;
+                    case "east":
+                        exits.append("东");
+                        break;
+                    case "west":
+                        exits.append("西");
+                        break;
+                    case "up":
+                        exits.append("上");
+                        break;
+                    case "down":
+                        exits.append("下");
+                        break;
+                    default:
+                        exits.append(dir);
+                        break;
                 }
             }
         }
